@@ -26,6 +26,10 @@ jobs:
       - run: npm install
       - run: npm run build
       # aws cli latest by marketplace action: chrislennon/action-aws-cli@v1.1
+      # upgrade to using Environment Files or opt into unsecure command execution by setting the `ACTIONS_ALLOW_UNSECURE_COMMANDS` environment variable to `true`
+      - name: upgrade to using Environment Files or opt into unsecure command execution
+        run: echo 'ACTIONS_ALLOW_UNSECURE_COMMANDS=true' >> $GITHUB
+        
       - uses: chrislennon/action-aws-cli@v1.1
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
         env:
