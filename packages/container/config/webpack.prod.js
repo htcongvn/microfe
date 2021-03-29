@@ -16,7 +16,7 @@ const prodConfig = {
       remotes: {
         marketing: `marketing@${domain}/marketing/remoteEntry.js`,
       },
-      // share all the dependencies taking care of by webpack
+      // share all the dependencies taking care of by Webpack
       shared: packageJson.dependencies,
     }),
   ],
