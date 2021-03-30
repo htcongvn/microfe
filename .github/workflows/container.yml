@@ -26,6 +26,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - run: npm install
+      # run build with env variable PRODUCTION_DOMAIN
       - run: npm run build
         env:
           PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
