@@ -15,7 +15,7 @@ const prodConfig = {
     new ModuleFerationPlugin({
       name: 'container',
       remotes: {
-        marketing: `marketing@${domain}/marketing/remoteEntry.js`,
+        marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`,
       },
       // All the shared dependencies are taken care of by Webpack
       shared: packageJson.dependencies,
