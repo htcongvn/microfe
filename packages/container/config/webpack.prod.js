@@ -16,6 +16,7 @@ const prodConfig = {
       name: 'container',
       remotes: {
         marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`,
+        auth: `auth@${domain}/auth/latest/remoteEntry.js`,
       },
       // All the shared dependencies are taken care of by Webpack
       shared: packageJson.dependencies,
