@@ -28,5 +28,5 @@ export default ({ onSignIn }) => {
     history.listen(onParentNavigate);
   }, []); // run useEffect only once when marketing app is first rendered to the screen
 
-  return <div ref={ref} />; // render an instance of the ref (instance of MarketingApp) to that div
+  return <div ref={ref} />; // render an instance of the ref (instance of AuthApp) to that div
 };

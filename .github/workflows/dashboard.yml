@@ -1,0 +1,46 @@
+name: deploy-dashboard
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'packages/dashboard/**'
+      - '.github/workflows/**'
+
+defaults:
+  run:
+    working-directory: packages/dashboard
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - run: npm install
+      - run: npm run build
+
+      # aws cli latest by marketplace github action: chrislennon/action-aws-cli@v1.1
+      # upgrade to using Environment Files or opt into unsecure command execution by setting the `ACTIONS_ALLOW_UNSECURE_COMMANDS` environment variable to `true`
+      - uses: chrislennon/action-aws-cli@v1.1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+
+      - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/dashboard/latest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      # invalidating files to update the files in cloudfront based on latest files in s3, in this case: /marketing/latest/remoteEntry.js
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/dashboard/latest/*"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
