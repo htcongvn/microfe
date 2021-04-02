@@ -5,7 +5,7 @@ import { createMemoryHistory, createBrowserHistory } from 'history';
 import App from './App';
 
 // mount () to start up marketing app & create a callback onNavigation()
-const mount = (el, { onNavigate, defaultHistory, initialPath }) => {
+const mount = (el, { onNavigate, defaultHistory, initialPath, onSignin }) => {
   // create memory history navigation object. use defaultHistory of there has one, otherwise use memory history
   // const history = defaultHistory || createBrowserHistory();
   const history =
@@ -22,7 +22,7 @@ const mount = (el, { onNavigate, defaultHistory, initialPath }) => {
     history.listen(onNavigate);
   }
 
-  ReactDOM.render(<App history={history} />, el);
+  ReactDOM.render(<App onSignin={onSignin} history={history} />, el);
 
   return {
     onParentNavigate({ pathname: nextPathname }) {

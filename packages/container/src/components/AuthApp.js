@@ -2,7 +2,7 @@ import { mount } from 'auth/AuthApp';
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export default () => {
+export default ({ onSignIn }) => {
   const ref = useRef(null); // ref to the html currently displayed on the browser
   const history = useHistory(); // history is the object copied from the browser history
 
@@ -18,6 +18,10 @@ export default () => {
       },
       // initialPath will take the current url path from browser history and initialize it for memory history
       initialPath: history.location.pathname,
+      // callback for user authentication
+      onSignin: () => {
+        onSignIn();
+      },
     }); // mount the element which is the current html on the browser (instance of MarketingApp)
 
     // navigation down to marketing app (child) from container app (parent), i.e. when click on App link
